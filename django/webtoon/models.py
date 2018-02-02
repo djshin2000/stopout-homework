@@ -2,6 +2,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from django.db import models
+from django.utils.html import format_html
 
 
 class Webtoon(models.Model):
@@ -9,7 +10,7 @@ class Webtoon(models.Model):
     title = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'{self.title} | {self.webtoon_id}'
+        return self.title
 
     def get_episode_list(self):
         url = 'http://comic.naver.com/webtoon/list.nhn'
@@ -54,4 +55,9 @@ class Episode(models.Model):
     created_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.title} | {self.episode_id}'
+        return self.title
+
+    def show_thumbnail(self):
+        return format_html(
+            f'<img src="{self.url_thumbnail}" width="71" height="41" />'
+        )
