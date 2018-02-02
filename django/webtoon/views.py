@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Webtoon, Episode
+from .models import Webtoon
 
 
 def webtoon_list(request):
@@ -8,13 +8,11 @@ def webtoon_list(request):
     context = {
         'webtoons': webtoons,
     }
-
     return render(request, 'webtoon/index.html', context)
 
 
 def webtoon_detail(request, pk):
-    episodes = Episode.objects.filter(webtoon=pk)
     context = {
-        'episodes': episodes,
+        'webtoon': Webtoon.objects.get(pk=pk),
     }
     return render(request, 'webtoon/webtoon_detail.html', context)
