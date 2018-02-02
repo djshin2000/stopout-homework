@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webtoon Detail</title>
+</head>
+<body>
+<h1>Webtoon Detail 페이지 입니다.</h1>
+<ul>
+  {% for episode in episodes %}
+  <li>{{ episode.title }} | {{ episode.rating }} | {{ episode.created_date }}</li>
+  {% endfor %}
+</ul>
+</body>
+</html>
