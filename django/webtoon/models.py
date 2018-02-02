@@ -1,4 +1,6 @@
 import re
+from datetime import datetime
+
 import requests
 from bs4 import BeautifulSoup
 from django.db import models
@@ -34,15 +36,18 @@ class Webtoon(models.Model):
             url_thumbnail = tr.select_one('td:nth-of-type(1) > a > img').get('src')
             title = tr.select_one('td:nth-of-type(2) > a').text
             rating = tr.select_one('td:nth-of-type(3) > div.rating_type > strong').text
-            created_date = tr.select_one('td:nth-of-type(4)').text
+            created_date_string = tr.select_one('td:nth-of-type(4)').text
+
+            # string(2018.12.30)을 datetime format으로 변경
+            created_date_object = datetime.strptime(created_date_string, '%Y.%m.%d')
 
             Episode.objects.create(
-                webtoon=self.webtoon_id,
+                webtoon_id=self.pk,
                 episode_id=episode_id,
                 url_thumbnail=url_thumbnail,
                 title=title,
                 rating=rating,
-                created_date=created_date,
+                created_date=created_date_object,
             )
 
 
