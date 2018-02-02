@@ -10,6 +10,7 @@ class WebtoonAdmin(admin.ModelAdmin):
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'episode_id',
         'webtoon',
         'show_thumbnail',
