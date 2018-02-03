@@ -8,7 +8,7 @@ def webtoon_list(request):
     context = {
         'webtoons': webtoons,
     }
-    return render(request, 'webtoon/index.html', context)
+    return render(request, 'webtoon/webtoon_list.html', context)
 
 
 def webtoon_detail(request, pk):
