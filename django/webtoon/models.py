@@ -5,7 +5,7 @@ from datetime import datetime
 from django.db import models
 from django.utils.html import format_html
 from bs4 import BeautifulSoup
-from config.settings import MEDIA_ROOT
+from config import settings
 
 
 class Webtoon(models.Model):
@@ -31,8 +31,8 @@ class Webtoon(models.Model):
         tr_list = soup.select('table.viewList > tr')
 
         # media 폴더 및 webtoon app폴더가 없을 경우 폴더 생성
-        os.makedirs(MEDIA_ROOT, exist_ok=True)
-        webtoon_dir = os.path.join(MEDIA_ROOT, 'webtoon')
+        os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
+        webtoon_dir = os.path.join(settings.MEDIA_ROOT, 'webtoon')
         os.makedirs(webtoon_dir, exist_ok=True)
 
         for tr in tr_list:
@@ -56,10 +56,12 @@ class Webtoon(models.Model):
             with open(save_path, 'wb') as f:
                 f.write(requests.get(url_thumbnail).content)
 
+            thumbnail_path = f'/media/webtoon/{self.webtoon_id}/img{episode_id}.jpg'
+
             Episode.objects.create(
                 webtoon_id=self.pk,
                 episode_id=episode_id,
-                url_thumbnail=url_thumbnail,
+                url_thumbnail=thumbnail_path,
                 title=title,
                 rating=rating,
                 created_date=created_date_object,
@@ -79,5 +81,5 @@ class Episode(models.Model):
 
     def show_thumbnail(self):
         return format_html(
-            f'<img src="{self.url_thumbnail}" width="71" height="41" />'
+            f'<img src="" width="71" height="41" />'
         )
