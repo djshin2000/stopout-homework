@@ -5,7 +5,7 @@
 <div class="alert alert-primary" role="alert">
   '{{ webtoon.title }}'의 Episode가 없습니다.
 </div>
-<a href="" class="btn btn-success">Episode 가져오기</a>
+<a href="{% url 'episode-get' pk=webtoon.pk%}" class="btn btn-success">Episode 가져오기</a>
 {% else %}
 <table class="table">
   <thead>
