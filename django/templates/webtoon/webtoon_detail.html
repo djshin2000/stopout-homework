@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+
 {% block content %}
 {% if not webtoon.episode_set.all %}
 <div class="alert alert-primary" role="alert">
@@ -9,11 +9,13 @@
 {% else %}
 <table class="table">
   <thead>
-    <th scope="col">Episode Id</th>
-    <th scope="col">Image</th>
-    <th scope="col">Title</th>
-    <th scope="col">Rating</th>
-    <th scope="col">Created Date</th>
+    <tr>
+      <th scope="col">Episode Id</th>
+      <th scope="col">Image</th>
+      <th scope="col">Title</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Created Date</th>
+    </tr>
   </thead>
   <tbody>
     {% for episode in webtoon.episode_set.all %}
