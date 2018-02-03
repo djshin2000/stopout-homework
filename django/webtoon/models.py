@@ -81,5 +81,5 @@ class Episode(models.Model):
 
     def show_thumbnail(self):
         return format_html(
-            f'<img src="" width="71" height="41" />'
+            f'<img src="{self.url_thumbnail}" width="71" height="41" />'
         )

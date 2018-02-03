@@ -11,8 +11,8 @@ class WebtoonAdmin(admin.ModelAdmin):
 class EpisodeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'episode_id',
         'webtoon',
+        'episode_id',
         'show_thumbnail',
         'title',
         'rating',
