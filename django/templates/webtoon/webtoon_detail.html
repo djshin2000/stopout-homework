@@ -1,15 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Webtoon Detail</title>
-</head>
-<body>
-<h1>Webtoon Detail 페이지 입니다.</h1>
-<ul>
-  {% for episode in webtoon.episode_set.all %}
-  <li>{{ episode.title }} | {{ episode.rating }} | {{ episode.created_date }}</li>
-  {% endfor %}
-</ul>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not webtoon.episode_set.all %}
+<div class="alert alert-primary" role="alert">
+  '{{ webtoon.title }}'의 Episode가 없습니다.
+</div>
+<a href="" class="btn btn-success">Episode 가져오기</a>
+{% else %}
+<table class="table">
+  <thead>
+    <th scope="col">Episode Id</th>
+    <th scope="col">Image</th>
+    <th scope="col">Title</th>
+    <th scope="col">Rating</th>
+    <th scope="col">Created Date</th>
+  </thead>
+  <tbody>
+    {% for episode in webtoon.episode_set.all %}
+    <tr>
+      <td>
+        <a href="http://comic.naver.com/webtoon/detail.nhn?titleId={{ webtoon.webtoon_id }}&no={{episode.episode_id}}">
+          {{ episode.episode_id }}
+        </a>
+      </td>
+      <td>
+        <a href="http://comic.naver.com/webtoon/detail.nhn?titleId={{ webtoon.webtoon_id }}&no={{episode.episode_id}}">
+        <img class="episode_thumbnail" src="{{ episode.url_thumbnail}}" alt="">
+        </a>
+      </td>
+      <td>
+        <a href="http://comic.naver.com/webtoon/detail.nhn?titleId={{ webtoon.webtoon_id }}&no={{episode.episode_id}}">
+          {{ episode.title }}
+        </a>
+      </td>
+      <td>{{ episode.rating }}</td>
+      <td>{{ episode.created_date }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}

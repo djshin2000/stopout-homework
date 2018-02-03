@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Index</title>
-</head>
-<body>
-<h1>webtoon list 입니다.</h1>
-<ul>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="list-group">
   {% for webtoon in webtoons %}
-  <li><a href="{% url 'webtoon-detail' pk=webtoon.pk %}">{{ webtoon.title }}</a></li>
+  <a href="{% url 'webtoon-detail' pk=webtoon.pk %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <div>
+        <h5 class="mb-1">{{ webtoon.title }}</h5>
+        <small id="webtoon-id-small-tag">id: {{ webtoon.webtoon_id }}</small>
+      </div>
+      <div class="icon-box">
+        <i class="fas fa-angle-right" id="arrow-right"></i>
+      </div>
+    </div>
+  </a>
   {% endfor %}
-</ul>
-</body>
-</html>
+</div>
+{% endblock %}
