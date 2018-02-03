@@ -1,10 +1,11 @@
 import re
-from datetime import datetime
-
+import os
 import requests
-from bs4 import BeautifulSoup
+from datetime import datetime
 from django.db import models
 from django.utils.html import format_html
+from bs4 import BeautifulSoup
+from config.settings import MEDIA_ROOT
 
 
 class Webtoon(models.Model):
@@ -29,6 +30,11 @@ class Webtoon(models.Model):
 
         tr_list = soup.select('table.viewList > tr')
 
+        # media 폴더 및 webtoon app폴더가 없을 경우 폴더 생성
+        os.makedirs(MEDIA_ROOT, exist_ok=True)
+        webtoon_dir = os.path.join(MEDIA_ROOT, 'webtoon')
+        os.makedirs(webtoon_dir, exist_ok=True)
+
         for tr in tr_list:
             onclick_text = tr.select_one('td:nth-of-type(2) > a').get('onclick')
             p = re.compile(r"\(.*?,.*?,.*?,.*?'(.*?)'.*?,.*?\)")
@@ -40,6 +46,15 @@ class Webtoon(models.Model):
 
             # string(2018.12.30)을 datetime format으로 변경
             created_date_object = datetime.strptime(created_date_string, '%Y.%m.%d')
+
+            # 해당 webtoon의 폴더가 없을 경우 폴더 생성
+            webtoon_id_dir = os.path.join(webtoon_dir, self.webtoon_id)
+            os.makedirs(webtoon_id_dir, exist_ok=True)
+
+            # thumbnail image를 저장하는 구문
+            save_path = os.path.join(webtoon_id_dir, f'img{episode_id}.jpg')
+            with open(save_path, 'wb') as f:
+                f.write(requests.get(url_thumbnail).content)
 
             Episode.objects.create(
                 webtoon_id=self.pk,
