@@ -73,6 +73,3 @@ if __name__ == '__main__':
             result.rating,
             result.created_date
         ))
-# 고수: 662774
-# 유미의 세포들: 651673
-# 빙탕후루: 695321
